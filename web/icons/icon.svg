@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <defs>
+    <radialGradient id="bg" cx="0.5" cy="0.38" r="0.75">
+      <stop offset="0" stop-color="#4f8f4a"/>
+      <stop offset="0.55" stop-color="#245a2c"/>
+      <stop offset="1" stop-color="#10291a"/>
+    </radialGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#bff0ff" stop-opacity="0.9"/>
+      <stop offset="0.45" stop-color="#6fd3ff" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#6fd3ff" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="gem" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#e8fbff"/>
+      <stop offset="0.45" stop-color="#6fd3ff"/>
+      <stop offset="1" stop-color="#1d6fa8"/>
+    </linearGradient>
+  </defs>
+  <rect width="1024" height="1024" fill="url(#bg)"/>
+  <!-- Bäume am Rand -->
+  <g fill="#0c2214" opacity="0.85">
+    <path d="M0 1024 L0 700 Q60 560 130 690 L170 1024Z"/>
+    <path d="M110 1024 L210 600 L310 1024Z"/>
+    <path d="M714 1024 L814 590 L914 1024Z"/>
+    <path d="M860 1024 L900 680 Q960 560 1024 690 L1024 1024Z"/>
+  </g>
+  <g fill="#173a1e">
+    <path d="M200 1024 Q260 860 340 1024Z"/>
+    <path d="M680 1024 Q760 850 840 1024Z"/>
+  </g>
+  <!-- Leuchten -->
+  <circle cx="512" cy="470" r="330" fill="url(#glow)"/>
+  <!-- Dornenring -->
+  <g fill="none" stroke="#3a1f12" stroke-width="22" stroke-linecap="round" opacity="0.9">
+    <path d="M300 620 Q250 470 330 360"/>
+    <path d="M724 620 Q774 470 694 360"/>
+  </g>
+  <g stroke="#3a1f12" stroke-width="14" stroke-linecap="round">
+    <path d="M276 520 l-40 -10"/><path d="M300 420 l-36 -26"/><path d="M748 520 l40 -10"/><path d="M724 420 l36 -26"/>
+  </g>
+  <!-- Kristall -->
+  <g transform="translate(512 470)">
+    <polygon points="0,-250 170,-70 0,250 -170,-70" fill="url(#gem)" stroke="#123f62" stroke-width="16" stroke-linejoin="round"/>
+    <polygon points="0,-250 70,-70 0,250 -70,-70" fill="#ffffff" opacity="0.45"/>
+    <polygon points="-170,-70 170,-70 0,-250" fill="#ffffff" opacity="0.28"/>
+    <polyline points="-170,-70 170,-70" fill="none" stroke="#123f62" stroke-width="10" opacity="0.6"/>
+    <circle cx="-60" cy="-150" r="18" fill="#ffffff" opacity="0.9"/>
+  </g>
+  <!-- Funken -->
+  <g fill="#fff6c0">
+    <circle cx="250" cy="250" r="12"/><circle cx="790" cy="300" r="9"/><circle cx="820" cy="180" r="6"/><circle cx="190" cy="380" r="7"/>
+  </g>
+</svg>
