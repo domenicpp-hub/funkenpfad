@@ -1,0 +1,10 @@
+{
+  "name": "funkenpfad-server",
+  "private": true,
+  "type": "module",
+  "description": "Gebauter Online-Server und gebautes Spiel. Quelltext: privates Repository.",
+  "scripts": {
+    "build": "node -e \"console.log('Schon gebaut.')\"",
+    "start": "node server.mjs"
+  }
+}

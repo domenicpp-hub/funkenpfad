@@ -1,0 +1,48 @@
+# funkenpfad.godsrage.dev -- Funkenpfad: das Spiel (statische Dateien aus /srv/funkenpfad/web)
+# und der Online-Server auf 127.0.0.1:8010 (WebSocket unter /ws).
+#
+# Versionierte Fassung (Quelle: apps/server/deploy/funkenpfad.caddy im privaten Repository,
+# liegt nach jedem Ausrollen auch unter /srv/funkenpfad/funkenpfad.caddy). Auf dem Server:
+# /etc/caddy/sites/funkenpfad.caddy, Eigentuemer root:caddy, Rechte 640 -- mit falschem
+# Eigentuemer ueberspringt Caddy die Datei stillschweigend. Einrichtung: docs/ONLINE.md.
+#
+# Bewusst KEIN Zugriffsprotokoll ("log"): Die Datenschutzerklaerung sagt, dass keine
+# Protokolle mit IP-Adressen gespeichert werden. Wer eins einschaltet, muss sie aendern.
+#
+# Eigene Domain spaeter: Adresse in der naechsten Zeile ergaenzen (z. B. "funkenpfad.de,
+# www.funkenpfad.de, funkenpfad.godsrage.dev {"), ALLOWED_ORIGINS in .dev.vars und die
+# Variable ONLINE_URL im Repository anpassen, neu veroeffentlichen.
+
+funkenpfad.godsrage.dev {
+	encode zstd gzip
+
+	header {
+		X-Content-Type-Options "nosniff"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		X-Frame-Options "DENY"
+		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=()"
+		# Das Spiel laedt nichts Fremdes: Schriften und Bilder liegen hier, Online nur zum eigenen Server.
+		# 'unsafe-inline' bei Styles: Svelte setzt Farben als style-Attribute (keine Skripte).
+		Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self' wss://funkenpfad.godsrage.dev; worker-src 'self'; manifest-src 'self'; media-src 'self' data: blob:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'"
+		-Server
+	}
+
+	# Online-Server (WebSocket und /ws/health)
+	handle /ws* {
+		reverse_proxy 127.0.0.1:8010
+	}
+
+	handle {
+		root * /srv/funkenpfad/web
+		# Startseite, Service Worker und Manifest immer frisch, damit Updates ankommen.
+		@frisch path / /index.html /sw.js /manifest.webmanifest
+		header @frisch Cache-Control "no-cache"
+		# Gebaute Dateien tragen einen Hash im Namen und aendern sich nie.
+		# Ebenso Ollis Aufnahmen (Name aus Text und Stimme, siehe docs/STIMME.md).
+		@gebaut path /assets/* /olli/*
+		header @gebaut Cache-Control "public, max-age=31536000, immutable"
+		@bilder path /art/* /icons/*
+		header @bilder Cache-Control "public, max-age=86400"
+		file_server
+	}
+}
